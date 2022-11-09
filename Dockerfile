@@ -1,4 +1,4 @@
-FROM python:3.11.0 #the default python docker image run on Debian linux
+FROM python:3.11.0
 
 RUN apt update
 
@@ -10,6 +10,6 @@ RUN mkdir /opt/rps
 
 COPY main.py /opt/rps
 
-COPY rpnsSupport /opt/rps/rpsSupport
+COPY rpsSupport /opt/rps/rpsSupport
 
 CMD ["python3", "/opt/rps/main.py"]
