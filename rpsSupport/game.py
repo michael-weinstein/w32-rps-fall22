@@ -1,8 +1,21 @@
 import random
 import typing
 
+def playerThrowInvalid(playerThrow: int) -> bool:
+    """
+    Checks that the player input is within the allowed values
+    :param playerThrow:
+    :return:
+    """
+    if playerThrow not in set([0, 1, 2]):
+        return True
+    return False
+
 def getPlayerThrow(winTable:typing.Dict[str, str]) -> str:
-    playerThrow = input("rock, paper, or scissors? ")
+    playerThrow = input("rock (0), paper (1), or scissors (2)? ")
+    if playerThrowInvalid(playerThrow):
+        print('Input in valid. Please input 0, 1, or 2')
+        return getPlayerThrow(winTable)
     return playerThrow
 
 def getComputerThrow(winTable:typing.Dict[str, str]) -> str:
