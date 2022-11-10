@@ -1,2 +1,4 @@
 from . import game
-from .rpsWins import winners as standardWins
+from . import rpsWins
+from .rpsWins import rpsWinners as standardWins
+from .rpsWins import rpslsWinners as rpslsWins
