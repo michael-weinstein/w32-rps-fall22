@@ -1,38 +1,42 @@
-import random
 import typing
+import random
 
-def playerThrowInvalid(playerThrow: int) -> bool:
-    """
-    Checks that the player input is within the allowed values
-    :param playerThrow:
-    :return:
-    """
-    if playerThrow not in set([0, 1, 2]):
-        return True
-    return False
 
 def getPlayerThrow(winTable:typing.Dict[str, str]) -> str:
-    playerThrow = input("rock (0), paper (1), or scissors (2)? ")
-    if playerThrowInvalid(playerThrow):
-        print('Input in valid. Please input 0, 1, or 2')
-        return getPlayerThrow(winTable)
-    return playerThrow
+    possibleThrows = list(winTable.keys())
+    throwNumbers = {}
+    for number, throw in enumerate(possibleThrows):
+        throwNumbers[number] = throw
+    for number, throw in throwNumbers.items():
+        print("%s: %s" %(number, throw))
+    validPlayerThrow = None
+    while validPlayerThrow is None:
+        playerThrow = input("Select your throw.\n")
+        playerThrow = int(playerThrow)
+        if playerThrow in throwNumbers:
+            validPlayerThrow = playerThrow
+        else:
+            print("Invalid throw number given. Try again.")
+    return throwNumbers[validPlayerThrow]
+
+
+def determineOutcome(winTable:typing.Dict[str, str], computerThrow:str, playerThrow:str) -> typing.Tuple[str, str]:
+    if computerThrow == playerThrow:
+        result = "tied"
+    elif playerThrow in winTable[computerThrow]:
+        result = "won"
+    else:
+        result = "lost"
+    return result, computerThrow
+
 
 def getComputerThrow(winTable:typing.Dict[str, str]) -> str:
     possibleThrows = list(winTable.keys())
     return random.choice(possibleThrows)
 
-def determineOutcome(winTable:typing.Dict[str, str], computerThrow:str, playerThrow:str) -> None:
-    if playerThrow == computerThrow:
-        return print('Tie')
-    elif computerThrow == winTable[playerThrow][0]:
-        return print('You lost :(')
-    elif playerThrow == winTable[computerThrow][0]:
-        return print('You won!')
 
-def playARound(winTable:typing.Dict[str, str]) -> None:
-    playerThrow = getPlayerThrow(winTable)
-    print("You selected", playerThrow)
+def playARound(winTable:typing.Dict[str, str]) -> typing.Tuple[str, str]:
     computerThrow = getComputerThrow(winTable)
-    print("Computer selected", computerThrow)
-    determineOutcome(winTable, computerThrow, playerThrow)
+    playerThrow = getPlayerThrow(winTable)
+    return determineOutcome(winTable, computerThrow, playerThrow)
+
